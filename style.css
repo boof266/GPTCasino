@@ -1,0 +1,275 @@
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    background-color: #b9b9b9c7;
+}
+
+/* Header styles */
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #ddd;
+}
+
+/* Main content styles */
+main {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Roulette game styles */
+.roulette-container {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.money-display {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #4CAF50;
+    text-align: center;
+}
+
+.roulette-wheel {
+    position: relative;
+    width: 300px;
+    height: 300px;
+    margin: 20px auto;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 5px solid #333;
+}
+
+.wheel {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform: rotate(0deg);
+}
+
+/* Lane styles */
+.lane {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    clip-path: polygon(50% 50%, 100% 50%, 100% 100%);
+    transform-origin: 50% 50%;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.lane:nth-child(1) { transform: rotate(0deg); }
+.lane:nth-child(2) { transform: rotate(36deg); }
+.lane:nth-child(3) { transform: rotate(72deg); }
+.lane:nth-child(4) { transform: rotate(108deg); }
+.lane:nth-child(5) { transform: rotate(144deg); }
+.lane:nth-child(6) { transform: rotate(180deg); }
+.lane:nth-child(7) { transform: rotate(216deg); }
+.lane:nth-child(8) { transform: rotate(252deg); }
+.lane:nth-child(9) { transform: rotate(288deg); }
+.lane:nth-child(10) { transform: rotate(324deg); }
+
+.red {
+    background-color: #e74c3c;
+}
+
+.black {
+    background-color: #2c3e50;
+}
+
+.winning {
+    background-color: gold !important;
+    color: #333;
+}
+
+.pointer {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 20px solid #333;
+    transform: translateX(-50%);
+}
+
+/* Betting interface styles */
+.betting-interface {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.color-buttons {
+    margin-bottom: 20px;
+}
+
+.bet-button {
+    padding: 10px 20px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.bet-button.red {
+    background-color: #e74c3c;
+}
+
+.bet-button.black {
+    background-color: #2c3e50;
+}
+
+.bet-button.selected {
+    transform: scale(1.1);
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.bet-amount {
+    margin: 20px 0;
+}
+
+#betAmount {
+    padding: 10px;
+    margin-right: 10px;
+    width: 150px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#placeBet, #spinButton {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#placeBet:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#spinButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.game-messages {
+    margin-top: 20px;
+    min-height: 50px;
+    color: #333;
+    font-weight: bold;
+    text-align: center;
+}
+
+/* Auth container styles */
+.auth-container {
+    max-width: 400px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.login-form, .register-form {
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.auth-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.auth-button:hover {
+    background-color: #45a049;
+}
+
+.register-link, .login-link {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.register-link a, .login-link a {
+    color: #4CAF50;
+    text-decoration: none;
+}
+
+.register-link a:hover, .login-link a:hover {
+    text-decoration: underline;
+}
+
+/* Footer styles */
+footer {
+    background-color: #333;
+    color: white;
+    text-align: center;
+    padding: 1rem;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}

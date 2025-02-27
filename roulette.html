@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roulette - GPTCasino</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Keyframe animation for spinning effect */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .wheel {
+            /* Initial state without animation */
+            transition: transform 0s; /* No transition initially */
+        }
+        .spinning {
+            animation: spin 5s ease-out; /* Apply spinning animation */
+        }
+        .bet-button.red {
+            background-color: #e74c3c; /* Red color for the red button */
+            color: white;
+        }
+        .bet-button.black {
+            background-color: #2c3e50; /* Black color for the black button */
+            color: white;
+        }
+        #logoutBtn {
+            background-color: #4CAF50; /* Match other buttons */
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li id="rouletteTab"><a href="roulette.html">Roulette</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><button id="logoutBtn">Logout</button></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Welcome to the Roulette Game!</h1>
+        <p>Your balance: <span id="userBalance"></span></p>
+
+        <div class="roulette-container">
+            <div class="money-display">Your Bet: <span id="betAmountDisplay">0</span></div>
+            <div class="roulette-wheel">
+                <div class="wheel" id="wheel"></div>
+                <div class="lane red"></div>
+                <div class="lane black"></div>
+                <div class="lane red"></div>
+                <div class="lane black"></div>
+                <div class="lane red"></div>
+                <div class="lane black"></div>
+                <div class="lane red"></div>
+                <div class="lane black"></div>
+                <div class="lane red"></div>
+                <div class="lane black"></div>
+            </div>
+            <div class="betting-interface">
+                <input type="number" id="betAmount" placeholder="Enter your bet amount">
+                <button class="bet-button red" id="betRed">Bet on Red</button>
+                <button class="bet-button black" id="betBlack">Bet on Black</button>
+                <button id="placeBet">Place Bet</button>
+            </div>
+            <div class="game-messages" id="gameMessages"></div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 GPTCasino. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Roulette game logic
+        const wheel = document.getElementById('wheel');
+        const betAmountInput = document.getElementById('betAmount');
+        const betAmountDisplay = document.getElementById('betAmountDisplay');
+        const gameMessages = document.getElementById('gameMessages');
+        const userBalanceDisplay = document.getElementById('userBalance');
+
+        let currentBet = 0;
+        let userBalance = 100; // Example starting balance
+        let selectedColor = null; // Track the selected color for betting
+
+        // Display initial balance
+        userBalanceDisplay.textContent = `$${userBalance.toFixed(2)}`;
+
+        document.getElementById('betRed').addEventListener('click', function() {
+            selectedColor = 'red';
+            gameMessages.textContent = `You have selected to bet on Red.`;
+        });
+
+        document.getElementById('betBlack').addEventListener('click', function() {
+            selectedColor = 'black';
+            gameMessages.textContent = `You have selected to bet on Black.`;
+        });
+
+        document.getElementById('placeBet').addEventListener('click', function() {
+            const betAmount = parseFloat(betAmountInput.value);
+            if (isNaN(betAmount) || betAmount <= 0 || betAmount > userBalance) {
+                alert('Please enter a valid bet amount.');
+                return;
+            }
+            currentBet = betAmount;
+            betAmountDisplay.textContent = currentBet;
+            gameMessages.textContent = `You have placed a bet of $${currentBet} on ${selectedColor}.`;
+
+            // Spin the wheel
+            const spinDuration = Math.floor(Math.random() * 5000) + 5000; // Random spin duration between 5-10 seconds
+            const spinResult = Math.floor(Math.random() * 2); // Simulate a spin result (0 for red, 1 for black)
+            const resultColor = spinResult === 0 ? 'red' : 'black';
+            wheel.classList.add('spinning'); // Add spinning class to trigger animation
+
+            setTimeout(() => {
+                wheel.classList.remove('spinning'); // Remove spinning class after animation
+                gameMessages.textContent = `The wheel has spun! Result: ${resultColor}`;
+                // Highlight the winning lane
+                const lanes = document.querySelectorAll('.lane');
+                lanes.forEach(lane => lane.classList.remove('winning'));
+                lanes[spinResult * 5].classList.add('winning'); // Highlight the winning lane
+
+                // Update balance based on the result
+                if (resultColor === selectedColor) {
+                    userBalance += currentBet; // Win
+                    gameMessages.textContent += ' You win!';
+                } else {
+                    userBalance -= currentBet; // Lose
+                    gameMessages.textContent += ' You lose!';
+                }
+                userBalanceDisplay.textContent = `$${userBalance.toFixed(2)}`;
+                currentBet = 0; // Reset bet after spinning
+                betAmountInput.value = ''; // Clear input
+                selectedColor = null; // Reset selected color
+            }, spinDuration); // Wait for the spin duration before showing the result
+        });
+
+        // Logout functionality
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async function() {
+                try {
+                    const response = await fetch('http://localhost:3001/api/logout', {
+                        method: 'POST'
+                    });
+
+                    if (response.ok) {
+                        localStorage.removeItem('user');
+                        window.location.href = 'index.html';
+                    } else {
+                        alert('Logout failed');
+                    }
+                } catch (error) {
+                    console.error('Logout error:', error);
+                    alert('An error occurred during logout');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
